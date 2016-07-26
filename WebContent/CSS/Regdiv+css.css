@@ -1,0 +1,12 @@
+.box
+{
+	border: solid 1px cyan; 
+	margin: 2px;
+}
+
+#content
+{
+	padding-left: 2px;
+	width: 79%;
+	height: 800px;
+}

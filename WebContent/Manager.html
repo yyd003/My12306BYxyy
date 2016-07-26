@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>div + css</title>
+	<link rel="stylesheet" href="CSS/div+css1.css">
+</head>
+<body>
+	<!-- this is the body -->
+	<!-- header -->
+		<div id = "header1" class="box">
+		    <div><font size = "3" color="red">12306</font></div>
+			<div><font size = "6" color="red">购票系统 </font></div>
+			
+		</div>
+		<div id = "header2" class="box">
+			当前位置：所有用户管理
+		</div>
+	<!-- menu -->
+		<div id="menu" class="box fl">
+		  <div id="menuDiv1" class="box">
+			管理员 <br>
+			<input type="radio" name = "用户管理" id = "usermag">用户管理<br>
+		    <input type="radio" name = "新增用户" id = "adduser">新增用户<br>
+		  </div>
+		</div>
+	<!-- content -->
+		<div id="content" class="box fr">
+
+			<div id="contentDiv1" class="box">
+			 <font color=red size="3"><----用户管理----></font> <br><br> 
+			 姓名:
+			 <input type="text" id = "name" required = "true"> 
+			 性别:
+				<select name="select" id="sex">
+					<option value="男">男</option>
+					<option value="女">女</option>
+					<option value="其他">其他</option>
+				</select><!-- <br><br> -->
+			证件型:
+				<select name="cert_type" id="cert_type">
+					<option value="二代身份证">二代身份证</option>
+					<option value="港澳通行证">港澳通行证</option>
+					<option value="台湾通行证">台湾通行证</option>
+					<option value="护照">护照</option>
+				</select>
+				<tr>
+			 证件号: 
+			    <input type="cert" id = "cert"> 
+	 
+	 
+		     旅客类型: 
+		 
+				<select name="cert_type" id="cert_type">
+					<option value="成人">成人</option>
+					<option value="儿童">儿童</option>
+					<option value="学生">学生</option>
+					<option value="残疾军人、伤残人民警察">残疾军人、伤残人民警察</option>
+				</select>
+				<input type="submit" value="查询">
+			</div>
+            
+            <div>
+			<form action="">
+				<table border="1"  class="t1">  
+                   <tr>
+                   		<th>选择</th>
+                   		<th>姓名</th>
+                   		<th>性别</th>
+                   		<th>证件类型</th>
+                   		<th>证件号码</th>
+                   		<th>旅客类型</th>
+                   		<th>操作</th>
+                   </tr>  
+			       <tr>  
+			            <td><input type="checkbox" ></td>
+			      		<td>用户1</td>
+			      		<td>男</td>
+			      		<td>二代身份证</td>
+			      		<td>123</td>
+			      		<td>成人</td>      		
+			      		<td>修改</a></td>
+			      </tr> 
+			     <tr>  
+			            <td><input type="checkbox" ></td>
+			      		<td>用户2</td>
+			      		<td>男</td>
+			      		<td>二代身份证</td>
+			      		<td>123</td>
+			      		<td>成人</td>      		
+			      		<td>修改</a></td>
+			      </tr>  
+			      <tr>  
+			            <td><input type="checkbox" ></td>
+			      		<td>用户3</td>
+			      		<td>男</td>
+			      		<td>二代身份证</td>
+			      		<td>123</td>
+			      		<td>成人</td>      		
+			      		<td>修改</a></td>
+			      </tr> 
+			      <tr>  
+			            <td><input type="checkbox" ></td>
+			      		<td>用户4</td>
+			      		<td>男</td>
+			      		<td>二代身份证</td>
+			      		<td>123</td>
+			      		<td>成人</td>      		
+			      		<td>修改</a></td>
+			      </tr> 
+			      <tr>  
+			            <td><input type="checkbox" ></td>
+			      		<td>用户5</td>
+			      		<td>男</td>
+			      		<td>二代身份证</td>
+			      		<td>123</td>
+			      		<td>成人</td>      		
+			      		<td>修改</a></td>
+			      </tr> 
+                </table>  
+			</form>
+		  </div>
+		</div>
+	<!-- footer -->
+		<div id="footer" class="box cl">
+			footer
+		</div>
+</body>
+</html>
