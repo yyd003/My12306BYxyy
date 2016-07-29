@@ -31,8 +31,7 @@ $(function(){
     var provinceObj = $("#province");
     var city = $("#city");
     provinceObj.change(function (){
-    	// alert("aaaa");
-    	 $.ajax({
+       	 $.ajax({
 			type : 'post',
 			url : '../register?action=findCity',
 			data : {
@@ -86,8 +85,7 @@ $(function(){
 			},
 			dataType : 'json',
 			success : function(data) {
-				  if(data.flag == "yes"){
-				  	
+				  if(data.flag == "yes"){				  	
 				  	doRefresh();
 				  }
 			},
@@ -128,7 +126,32 @@ $(function(){
      }
 
 	  function doRefresh(){
-	  	alert("刷新");
 	    window.location.href = "admin?action=show";
 	  }
+	  
+	  var changeProvinceObj = $("#changeProvince");
+	  // var provinceObj = $("#province");
+	   
+	  changeProvinceObj.click(function(){	  	 
+		  $.ajax({
+			type : 'post',
+			url : '../register?action=findProvince',
+			data : {
+			},
+			dataType : 'json',
+			success : function(data) {
+				provinceObj.html("");
+				var cityList = data.data;
+				var s = '';
+				 for(var i = 0; i < cityList.length; i++){
+				 	s += '<option value = '  + cityList[i].provinceid + '>' + cityList[i].province +'</option>' ;
+				 }
+				 provinceObj.append(s);
+			},
+			error : function() {
+				alert("省份获取异常");
+			}
+		});
+	  });
+	  
 });
