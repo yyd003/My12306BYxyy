@@ -6,8 +6,8 @@
 	<title>Document</title>
 	<link rel="stylesheet" href="../bootstrap/css/bootstrap.css">
 	<script src="../bootstrap/js/jquery.min.js"></script>
-	<script   src="../bootstrap/js/bootstrap.min.js"></script>
-    <script   src="../jss/newIndex.js"></script>
+	<script src="../bootstrap/js/bootstrap.min.js"></script>
+    <script src="../jss/newIndex.js"></script>
 </head>
 <body>
 	<div class="container">
@@ -50,6 +50,9 @@
 						<thead>
 							<tr>
 								<th>
+									选择
+								</th>
+								<th>
 									编号
 								</th>
 								<th>
@@ -78,6 +81,10 @@
 						<tbody>
 				<c:forEach items="${data.users}" var="s" varStatus="s1">
 					<tr>
+						<td><c:if test = '${s.id ne "2"}'>
+							<input type="checkbox" name = "sUid" id = "cUid" value = "${s.id}"/>
+						</c:if>		
+						</td>
 						<td>
 							<c:out value="${s.id}" />
 						</td>

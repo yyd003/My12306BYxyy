@@ -53,6 +53,24 @@ public class UserServince {
 		}
 		 return s;	 
 	 }
+	public boolean deleteUsers(int[] userIdList) throws Exception {
+		boolean s = false;
+		Connection conn = null;
+		int i = 0;
+		 try{
+		 conn = DBUtils.getconnection();
+		 UserDaoImpl udi = new UserDaoImpl(conn);
+		 DBUtils.beginTransaction(conn);
+		  s = udi.deleteUsers(userIdList);
+		 DBUtils.commit(conn);
+		 }catch(Exception e){
+			 DBUtils.rollBack(conn); 
+			 System.out.println("deleteUsers error!");
+		 }finally{
+			 DBUtils.closeConnection(conn);		
+		}
+		 return s;	
+	}
 	
 	public User login(String username, String password){
 		User u = null;

@@ -60,20 +60,21 @@ public class registerServlet extends HttpServlet {
 		if(action == null || "register".equals(action)){
 			doRegister(request,response);
 		}
-		if("check".equals(action)){
+		
+		else if("check".equals(action)){
 			doUsernameCheck(request,response);
 		}
 		
-		if("show".equals(action)){
+		else if("show".equals(action)){
 			try{
 				dataInit(request,response);
-				request.getRequestDispatcher("/reg.jsp").forward(request, response);
+				request.getRequestDispatcher("/Login.html").forward(request, response);
 			}catch(Exception e1){
 				e1.printStackTrace();
 			}
 		}
 		
-		if("findCity".equals(action)){
+		else if("findCity".equals(action)){
 			try{
 				doFindCity(request,response);
 			}catch(Exception e){
@@ -85,21 +86,34 @@ public class registerServlet extends HttpServlet {
 	protected void doUsernameCheck(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String username = request.getParameter("username");
 		UserServince userService = UserServince.getInstance();
+		JSONObject data = new JSONObject();
 		User u = new User();
 		u.setUsername(username);
-		User one = new User();
-		one = userService.findUser(u);
-		System.out.println(one);
-		String rs = "0";
-		if(one == null){
-			rs = "1";
+		// 如果查找到此用户名，此返回yes，告诉对象这个名不能注册
+		if(userService.findUser(u) != null){
+			data.put("flag", "yes");			
 		}
-		response.setContentType("text/html");
-		PrintWriter out = response.getWriter();
-		out.print(rs);
-		out.close();		
+		//将消息输出到请求端
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter pw = response.getWriter();
+		pw.print(data.toString());
+		pw.close();
+		
+//		User one = new User();
+//		one = userService.findUser(u);
+//		System.out.println(one);
+//		String rs = "0";
+//		if(one == null){
+//			rs = "1";
+//		}
+//		response.setContentType("text/html");
+//		PrintWriter out = response.getWriter();
+//		out.print(rs);
+//		out.close();	
+		
 	}
 	
+	//用户注册
 	protected void doRegister(HttpServletRequest request,HttpServletResponse response) throws IOException{
 		User user = new User();
 		populate(request,user);
@@ -159,7 +173,7 @@ public class registerServlet extends HttpServlet {
 		user.setCert_type(certtype);
 		user.setCert(cert);
 	//	if(!TextUtils.isEmpty(birthday)){
-			user.setBirthday(Date.valueOf(birthday));
+			user.setBirthday(birthday);
 	//	}
 			
 		UserType userType = new UserType();
@@ -168,6 +182,8 @@ public class registerServlet extends HttpServlet {
 		
 		user.setContent(content);
 	}
+	
+	
 	
 	private void doFindCity(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException,

@@ -10,33 +10,37 @@
 </head>
 <body>
 <form action="register" method="post">
-	<div> 
-	<table width="50%" align="center">
-	<td>
-		<font color="red">---登录信息---</font>
-	</td>
-	<td >
-		<input type="submit" value = "数据初始化"  onclick= "init()"/>
-    </td>
-    <td>
-    	注：标有*处均为必填项<%=request.getSession().getAttribute("userTypeData")%>
-    </td>
+	<div style="position: absolute; z-index: 2; left: 400px; top: 30px">
+		<img src="image/2.jpg" />
+	</div> 
+	<div style="position: absolute; z-index: 2; left: 400px; top: 150px">
+	<table width="100%">
+		<tr>
+			<td width="20%">
+		 		<font color="red">---登录信息---</font>
+			</td>
+			 
+   			 <td>
+    			注：标有*处均为必填项<%=request.getSession().getAttribute("userTypeData")%>
+    		</td>
+		</tr>
+	
    
 	<tr>
-		<td width='20%'>登录名:</td>
-		<td width='40%'><input type="text" id = "username" required = "true"  autofocus = "true"  onblur="processRequest()" name="username"></td>
-		<td width="50%"><font color = red>*</font>
+		<td width='10%'>登录名:</td>
+		<!-- <td width='30%'><input type="text" id = "username" required = "true"  autofocus = "true"  onblur="processRequest()" name="username"></td> -->
+		<td width='30%'><input type="text" id = "username" required = "true"  autofocus = "true" name="username" onblur="processRequest()"></td>
+		<td width="60%"><font color = red>*</font>
 		<span id = "res"> </span>
 		<span>由字母、数字、"_"组成，长度为6-30</span>
 		</td>
-
-	</tr><br><br>
+	</tr>
 	
 	<tr>
 		<td>密码:</td>
 		<td><input type="password" id="psw1" onkeyup="checkStrength()" name="password"></td>
 		<td><font color = red>*</font><span id="checkpsw1">不少于6位字符</span></td>	
-	</tr><br><br>
+	</tr>
 
 	<tr>
 		<td>确认密码:</td>
@@ -50,35 +54,34 @@
 		<td width='40%'><input type="text" id = "realname" required = "true" name="realname"></td>
 		<td width="50%"><font color = red>*</font><span></span></td>
 
-	</tr><br><br>
+	</tr>
 	<tr>
 		<td width="20%" >性别:</td>
 		<td width="40%">
-		<!-- <input type="radio" name = "ç·" id = "sexman" checked = "checked">ç·
-		<input type="radio" name = "å¥³" id = "sexwoman">å¥³ -->
 			<select name="sex" id="sex">
 				<option value="1">男</option>
 				<option value="2">女</option>
-				<!-- <option value="å¶ä»">å¶ä»</option> -->
+			
 			</select>
 		</td>
 		<td><font color = red>*</font></td>
-	</tr><br><br>
+	</tr>
 
 	<tr>
 		<td width='20%'>省份:</td>
 		<td width='40%'>
 		 <select name="province" id="province" placeholder = "省份" onchange="getCity()">
+		 	<option value="省份">省份</option>
 		 	<c:forEach items="${provinceData.data}" var="s" varStatus="s1">
 		 		<option value="<c:out value="${s.provinceid}" />">
 		 		<c:out value="${s.province}"/>	
 		 		</option>
 		 	</c:forEach>
-		        <option value="省份">省份</option>
+		        
 			</select>
 		   </td>
 		<td width="50%"><font color = red>*</font><span></span></td>
-	</tr><br><br>
+	</tr>
 
     <tr>
         <td width='20%'>城市</td>
@@ -88,17 +91,12 @@
 		  </select>  	
         </td> 
         <td><font color = red>*</font></td>	
-    </tr><br><br>
+    </tr>
     <tr>
 		<td width="20%" >证件类型:</td>
 		<td width="40%">
-		<!-- <input type="radio" name = "ç·" id = "sexman" checked = "checked">ç·
-		<input type="radio" name = "å¥³" id = "sexwoman">å¥³ -->
 			<select name="cert_type" id="cert_type">
-				<!-- <option value="1">二代身份证</option>
-				<option value="2">港澳通行证</option>
-				<option value="3">台湾通行证</option>
-				<option value="4">护照</option> -->
+				
 				<c:forEach items="${certTypeData.data}" var="s" varStatus="s1">
 		 		<option value="<c:out value="${s.ID}" />">
 		 		<c:out value="${s.content}"/>	
@@ -107,28 +105,24 @@
 			</select>
 		</td>
 		<td><font color = red>*</font></td>
-	</tr><br><br>
+	</tr>
     
     <tr>
 		<td>证件号码</td>
 		<td><input type="cert" id = "cert" name="cert"></td>
 		<td><font color = red>*</font></td>
-	</tr><br><br>
+	</tr>
 
 	<tr>
 		<td>出生日期</td>
 		<td><input type="date" id = "date" name="birthday"></td>
 		<td><font color = red>*</font></td>
-	</tr><br><br>
+	</tr>
 
 	 <tr>
 		<td width="20%" >旅客类型:</td>
 		<td width="40%">
 			<select name="user_type" id="user_type">
-				<!-- <option value="1">成人</option>
-				<option value="2">儿童</option>
-				<option value="3">学生</option>
-				<option value="4">残疾军人、伤残人民警察</option> -->
             <c:forEach items="${userTypeData.data}" var="s" varStatus="s1">
 		 		<option value="<c:out value="${s.id}" />">
 		 		<c:out value="${s.content}"/>	
@@ -138,12 +132,12 @@
 			</select>
 		</td>
 		<td><font color = red>*</font></td>
-	</tr><br><br>
+	</tr>
 
 	<tr>
 		<td>备注:</td>
 		<td><textarea name="content" id="content" cols="30" rows="10"></textarea></td>
-	</tr><br><br>
+	</tr>
 	</table>
 	<center>
 		<table width="40%">

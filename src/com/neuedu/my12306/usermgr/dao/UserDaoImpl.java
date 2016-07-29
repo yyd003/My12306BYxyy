@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.neuedu.my12306.common.DBUtils;
@@ -36,7 +37,7 @@ public class UserDaoImpl implements UserDao{
 			pstmt.setInt(6, u.getCity().getId());
 			pstmt.setInt(7, u.getCert_type().getID());
 			pstmt.setString(8, u.getCert());
-			pstmt.setDate(9, new java.sql.Date(u.getBirthday().getTime()));
+			pstmt.setString(9, u.getBirthday());
 			pstmt.setInt(10, u.getUser_type().getId());
 			pstmt.setString(11, u.getContent());
 			pstmt.setString(12, u.getStatus());
@@ -377,7 +378,7 @@ public class UserDaoImpl implements UserDao{
 				user.setCert_type(certType);
 
 				user.setCert(rs.getString("cert"));
-				user.setBirthday(rs.getDate("birthday"));
+				user.setBirthday(rs.getString("birthday"));
 
 				// UserType
 				UserType userType = new UserType();
@@ -456,7 +457,7 @@ public class UserDaoImpl implements UserDao{
 				user.setCert_type(certType);
 
 				user.setCert(rs.getString("cert"));
-				user.setBirthday(rs.getDate("birthday"));
+				user.setBirthday(rs.getString("birthday"));
 
 				// UserType
 				UserType userType = new UserType();
@@ -482,6 +483,19 @@ public class UserDaoImpl implements UserDao{
 	@Override
 	public boolean deleteUsers(int[] userIdList) throws Exception {
 		// TODO Auto-generated method stub
+		int i = 0;
+		String param = Arrays.toString(userIdList).replace("[", "(").replace("]", ")");
+		PreparedStatement pstmt = null;
+		String sql = "delete from tab_user where id in "+param;
+		try {
+			pstmt = conn.prepareStatement(sql);
+			i = pstmt.executeUpdate();
+			if(i != 0) return true;
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			System.out.println("deleteUsers error!");
+		} 
 		return false;
 	}
 

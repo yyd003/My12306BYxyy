@@ -1,6 +1,7 @@
 package com.neuedu.my12306.usermgr.servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.Servlet;
@@ -13,8 +14,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import net.sf.json.JSONObject;
 
+import com.neuedu.my12306.common.Md5Utils;
+import com.neuedu.my12306.usermgr.domain.CertType;
+import com.neuedu.my12306.usermgr.domain.City;
 import com.neuedu.my12306.usermgr.domain.User;
+import com.neuedu.my12306.usermgr.domain.UserType;
 import com.neuedu.my12306.usermgr.service.UserServince;
+import com.neuedu.my12306.usermgr.service.UserTypeServince;
 
 /**
  * Servlet implementation class AdminServlet
@@ -63,6 +69,32 @@ public class AdminServlet extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
+		
+		if ("add".equals(action)) {
+			System.out.println("add");
+			try {
+				doAdd(request, response);
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		if ("del".equals(action)) {
+			System.out.println("add");
+			try {
+				doDel(request, response);
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 
 	}
 	
@@ -93,4 +125,97 @@ public class AdminServlet extends HttpServlet {
 		request.getRequestDispatcher("/Admin/newIndex.jsp")
 				.forward(request, response);
 	}
+	
+	//管理员增加用户
+		protected void doAdd(HttpServletRequest request,HttpServletResponse response) throws IOException{
+			User user = new User();
+			System.out.println("aaaaaa");
+			populateuser(request,user);
+			System.out.println("bbbbb");
+			user.setStatus("1");
+			user.setPassword(Md5Utils.md5("123456"));
+			JSONObject jsonData = new JSONObject();
+			UserServince userService = UserServince.getInstance();
+			boolean bl = userService.save(user);			 
+			if(bl != false){
+				jsonData.put("flag", "yes");
+			}
+			response.setContentType("text/html;charset=utf-8");
+			PrintWriter pw = response.getWriter();
+			pw.print(jsonData.toString());
+			pw.close();						
+		}
+		
+		private void populateuser(HttpServletRequest request,User user){
+			String loginIp = request.getRemoteAddr();
+			String username = request.getParameter("username");
+			String realname = request.getParameter("realname");
+			String rule = request.getParameter("rule");
+			String sex = request.getParameter("sex");
+			String cityId = request.getParameter("city");
+			String certTypeId = request.getParameter("cert_type");
+			String cert = request.getParameter("cert");
+			String birthday = request.getParameter("birthday");
+			String userTypeId = request.getParameter("user_type");
+			String content = request.getParameter("content");
+			user.setLogin_ip(loginIp);
+			user.setUsername(username);			
+			user.setRealname(realname);
+			user.setSex(sex);
+			user.setRule(rule);
+			
+//			int aaa = 1;
+//			if ("1".equals(cityId)) {
+//				aaa = 1;
+//			} else if ("2".equals(cityId)) {
+//				aaa = 2;
+//			} else if ("3".equals(cityId)) {
+//				aaa = 3;
+//			} else if ("4".equals(cityId)) {
+//				aaa = 4;
+//			}
+
+			City city = new City();
+//			city.setId(Integer.parseInt(cityId.trim()));
+			
+			city.setId(1);
+			user.setCity(city);
+			
+			CertType certtype = new CertType();
+			certtype.setID(Integer.parseInt(certTypeId.trim()));
+			
+//		    certtype.setID(2);
+			user.setCert_type(certtype);
+			user.setCert(cert);
+		 
+			user.setBirthday(birthday);
+	 
+				
+			UserType userType = new UserType();
+			userType.setId(Integer.parseInt(userTypeId.trim()));
+			
+			userType.setId(3);
+			user.setUser_type(userType);
+			
+			user.setContent(content);
+		}
+		
+		private void doDel(HttpServletRequest request, HttpServletResponse response)
+				throws Exception {
+			JSONObject data = new JSONObject();
+			String[] ids = request.getParameter("ids_del").split(",");
+			int[] userIdList = new int[ids.length];
+			for(int i = 0; i < ids.length; i++){
+				userIdList[i] = Integer.parseInt(ids[i]);
+			}
+			UserServince userService = UserServince.getInstance();
+			boolean bl = userService.deleteUsers(userIdList);			 
+			if(bl != false){
+				data.put("flag", "yes");
+			}
+			response.setContentType("text/html;charset=utf-8");
+			PrintWriter pw = response.getWriter();
+			pw.print(data.toString());
+			pw.close();	
+		}	
 }

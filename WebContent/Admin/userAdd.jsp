@@ -6,13 +6,13 @@
 <head>
 <meta charset="UTF-8" />
 <title>我的12306 ｜ 系统管理</title>
-<link rel="stylesheet" href="../bootstrap/css/bootstrap.min.css">
-<script src="../bootstrap/js/jquery.min.js"></script>
-<script src="../bootstrap/js/bootstrap.min.js"></script>
-<script src="../js/admin.js"></script>
+<link rel="stylesheet" href="../bootstrap/css/bootstrap.css">
+	<script src="../bootstrap/js/jquery.min.js"></script>
+	<script src="../bootstrap/js/bootstrap.min.js"></script>
+    <script src="../jss/userAdd.js"></script>
 </head>
 <body>
-	<form class="form-horizontal">
+	<form action="action" method ="post" class="form-horizontal">
 		<div id="title" align="center"></div>
 		<hr>
 		<div class="form-group">
@@ -20,8 +20,8 @@
 			<div class="col-sm-6">
 				<input type="hidden" name="uId" id="uId" value="${userData.id}">
 				<input type="text" class="form-control" name="username"
-					id="username" value="${userData.username}" placeholder="请输入名字"><span
-					id="uCheck"></span>
+					id="username" value="${userData.username}" placeholder="请输入名字">
+					<span id="uCheck"></span>
 			</div>
 		</div>
 		<div class="form-group">
@@ -55,7 +55,7 @@
 			<div class="col-sm-2">
 				<select class="form-control" id="province" name="province">
 					<c:forEach items="${provinceData.data}" var="s" varStatus="s1">
-						<option value="<c:out value="${s.provinceId}" />"><c:out
+						<option value="<c:out value="${s.provinceid}" />"><c:out
 								value="${s.province}" />
 						</option>
 					</c:forEach>
@@ -121,8 +121,10 @@
 
 		<div class="form-group">
 			<div class="col-sm-offset-1 col-sm-7">
-				<button type="button" class="btn btn-danger btn-large btn-block"
+				<!-- <button type="button" class="btn btn-danger btn-large btn-block"
 					id="uEditAddBtn">添加用户</button>
+ -->
+					<input type="submit" class="btn btn-danger btn-large btn-block" id="uSaveBtn" value="添加"></button>
 			</div>
 		</div>
 	</form>

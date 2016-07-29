@@ -14,7 +14,7 @@ public class User {
 	private City city;
 	private CertType cert_type;
 	private String cert;
-	private Date birthday;
+	private String birthday;
 	private UserType user_type;
 	private String content;
 	private String status;
@@ -74,10 +74,10 @@ public class User {
 	public void setCert(String cert) {
 		this.cert = cert;
 	}
-	public Date getBirthday() {
+	public String getBirthday() {
 		return birthday;
 	}
-	public void setBirthday(Date date) {
+	public void setBirthday(String date) {
 		this.birthday = date;
 	}
 	public UserType getUser_type() {

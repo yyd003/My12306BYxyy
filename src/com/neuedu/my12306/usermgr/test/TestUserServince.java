@@ -20,7 +20,7 @@ public class TestUserServince {
 	{
 		User u = new User();
 	//	u.setId(5);
-		u.setUsername("a");
+		u.setUsername("ad");
 		u.setPassword(Md5Utils.md5("123456"));
 		u.setRule("1");
 		u.setRealname("许");
@@ -36,11 +36,12 @@ public class TestUserServince {
 		
 		u.setCert("340881199205132527");
 		
-		Calendar c1 = Calendar.getInstance();
-		c1.set(Calendar.YEAR, 1989);
-		c1.set(Calendar.MONTH, 2);
-		c1.set(Calendar.DATE, 12);
-		u.setBirthday(c1.getTime());
+//		Calendar c1 = Calendar.getInstance();
+//		c1.set(Calendar.YEAR, 1989);
+//		c1.set(Calendar.MONTH, 2);
+//		c1.set(Calendar.DATE, 12);
+//		u.setBirthday(c1.getTime());
+		u.setBirthday("1993-5-13");
 		
 		UserType ut = new UserType();
 		ut.setId(1);
@@ -98,6 +99,11 @@ public class TestUserServince {
 //		System.out.println(s);
 //		
 //	}
+	@Test
+	public void testDeleteUsers() throws Exception{
+		int a[] = {12,13,14};
+		Assert.assertTrue(us.deleteUsers(a));
+	}
 	
 	//@Test
 	public void testLogin(){
@@ -124,7 +130,7 @@ public class TestUserServince {
 		}
 		
 		// 测试得到用户列表，若无用户限制，则为findALl
-		@Test
+	//	@Test
 		public void testGetUserList() {
 			// Assert.assertNotNull(service.getUserList(0, 0, new User()));
 			// Assert.assertEquals(3, service.getUserList(10, 1, new
