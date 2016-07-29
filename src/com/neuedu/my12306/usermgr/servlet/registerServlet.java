@@ -258,5 +258,6 @@ public class registerServlet extends HttpServlet {
 			jsonData.put("data", null);
 		}
 		request.getSession().setAttribute("provinceData", jsonData);
+//		System.out.println(jsonData);
 	}	
 }

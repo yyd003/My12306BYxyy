@@ -68,10 +68,8 @@ public class AdminServlet extends HttpServlet {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
-		
-		if ("add".equals(action)) {
-			System.out.println("add");
+		}else if ("add".equals(action)) {
+//			System.out.println("add");
 			try {
 				doAdd(request, response);
 			} catch (NumberFormatException e) {
@@ -81,10 +79,10 @@ public class AdminServlet extends HttpServlet {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
+		}else
 		
 		if ("del".equals(action)) {
-			System.out.println("add");
+		 
 			try {
 				doDel(request, response);
 			} catch (NumberFormatException e) {
@@ -94,7 +92,30 @@ public class AdminServlet extends HttpServlet {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
+		}else
+		if("findAndPush".equals(action)){
+			try {
+				doFindAndPush(request, response);
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}else
+		
+		if("update".equals(action)){
+			try {
+				doUpdate(request, response);
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}	
 
 	}
 	
@@ -122,28 +143,33 @@ public class AdminServlet extends HttpServlet {
 			data.put("users", null);
 		}
 		request.setAttribute("data", data);// request范围
+//		System.out.println(request.getContextPath());
+////		request.getRequestDispatcher("/Admin/newIndex.jsp")
+////				.forward(request, response);
+//		response.sendRedirect("Admin/newIndex.jsp");
 		request.getRequestDispatcher("/Admin/newIndex.jsp")
-				.forward(request, response);
+		.forward(request, response);
 	}
 	
 	//管理员增加用户
-		protected void doAdd(HttpServletRequest request,HttpServletResponse response) throws IOException{
+		protected void doAdd(HttpServletRequest request,HttpServletResponse response) throws IOException, Exception{
 			User user = new User();
-			System.out.println("aaaaaa");
 			populateuser(request,user);
-			System.out.println("bbbbb");
 			user.setStatus("1");
 			user.setPassword(Md5Utils.md5("123456"));
 			JSONObject jsonData = new JSONObject();
 			UserServince userService = UserServince.getInstance();
 			boolean bl = userService.save(user);			 
-			if(bl != false){
+			if(bl){
 				jsonData.put("flag", "yes");
+				System.out.println(jsonData);
+			}else{
+				jsonData.put("flag", "no");
 			}
 			response.setContentType("text/html;charset=utf-8");
 			PrintWriter pw = response.getWriter();
 			pw.print(jsonData.toString());
-			pw.close();						
+			pw.close();		
 		}
 		
 		private void populateuser(HttpServletRequest request,User user){
@@ -164,37 +190,45 @@ public class AdminServlet extends HttpServlet {
 			user.setSex(sex);
 			user.setRule(rule);
 			
-//			int aaa = 1;
-//			if ("1".equals(cityId)) {
-//				aaa = 1;
-//			} else if ("2".equals(cityId)) {
-//				aaa = 2;
-//			} else if ("3".equals(cityId)) {
-//				aaa = 3;
-//			} else if ("4".equals(cityId)) {
-//				aaa = 4;
-//			}
-
 			City city = new City();
-//			city.setId(Integer.parseInt(cityId.trim()));
-			
 			city.setId(1);
+		//	city.setId(Integer.parseInt(cityId.trim()));
 			user.setCity(city);
 			
-			CertType certtype = new CertType();
-			certtype.setID(Integer.parseInt(certTypeId.trim()));
+			int aaa = 1;
+			if ("1".equals(certTypeId)) {
+				aaa = 1;
+			} else if ("2".equals(certTypeId)) {
+				aaa = 2;
+			} else if ("3".equals(certTypeId)) {
+				aaa = 3;
+			} else if ("4".equals(certTypeId)) {
+				aaa = 4;
+			}
 			
-//		    certtype.setID(2);
+			CertType certtype = new CertType();
+			certtype.setID(aaa);
+
 			user.setCert_type(certtype);
 			user.setCert(cert);
 		 
 			user.setBirthday(birthday);
-	 
+	        
+			int bbb = 1;
+			if ("1".equals(userTypeId)) {
+				bbb = 1;
+			} else if ("2".equals(userTypeId)) {
+				bbb = 2;
+			} else if ("3".equals(userTypeId)) {
+				bbb = 3;
+			} else if ("4".equals(userTypeId)) {
+				bbb = 4;
+			}
 				
 			UserType userType = new UserType();
-			userType.setId(Integer.parseInt(userTypeId.trim()));
+			userType.setId(bbb);
 			
-			userType.setId(3);
+		//	userType.setId(3);
 			user.setUser_type(userType);
 			
 			user.setContent(content);
@@ -218,4 +252,45 @@ public class AdminServlet extends HttpServlet {
 			pw.print(data.toString());
 			pw.close();	
 		}	
+		
+		private void doFindAndPush(HttpServletRequest request, HttpServletResponse response)
+				throws ServletException, IOException {
+			
+			String ids = request.getParameter("id");
+			int id = Integer.parseInt(ids);
+			User u = new User();
+			u.setId(id);
+			System.out.println(u.getId());
+			UserServince us = UserServince.getInstance();
+			User findUser = us.findUser(u);
+			findUser.setId(u.getId());
+			JSONObject data = new JSONObject();
+			data.put("userData", findUser);
+			System.out.println(data);
+			request.getSession().setAttribute("data", data);
+			request.getRequestDispatcher("/Admin/userAdd.jsp")
+			.forward(request, response);
+		}
+		
+		protected void doUpdate(HttpServletRequest request,HttpServletResponse response) throws IOException, Exception{	 
+				// List<IpAddress> list = service.getIpList();
+				// TODO Auto-generated method stub
+				User user = new User();
+				populateuser(request, user);// 填充用户信息
+				String sid = request.getParameter("id");
+				user.setId(Integer.parseInt(sid));
+				UserServince us = UserServince.getInstance();
+				JSONObject data = new JSONObject();
+				if (us.updateUser(user) != 0) {
+					data.put("flag", "yes");
+				}
+				// 设置输出端的内容类型及格式
+				response.setContentType("text/html;charset=utf-8");
+				// 取得输出流
+				PrintWriter pw = response.getWriter();
+				// 向输出流写入内容
+				pw.print(data.toString());
+				// 清空输出流，将内容推送到响应端
+				pw.close();
+			}
 }
