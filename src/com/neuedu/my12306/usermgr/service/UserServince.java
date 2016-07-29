@@ -167,4 +167,23 @@ public class UserServince {
 		}
 		return res;
 	}
+	
+	public int updateUser(User one) throws Exception {
+		Connection conn = null;
+		int res = 0;
+		try {
+			conn = DBUtils.getconnection();
+			UserDaoImpl userDaoImpl = new UserDaoImpl(conn);
+			DBUtils.beginTransaction(conn);
+			res = userDaoImpl.updateUser(one);
+			DBUtils.commit(conn);
+		} catch (SQLException e) {
+			DBUtils.rollBack(conn);
+			System.out.println("updateUser error!");
+		} finally {
+			DBUtils.closeConnection(conn);
+		}
+		return res;
+	}
 }
+

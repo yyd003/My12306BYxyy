@@ -53,4 +53,18 @@ $(function(){
 	 function doRefresh(){  
 	   window.location.href = "admin?action=show";
 	  }
+    
+    var umUpdBtn = $("#umUpdBtn");
+	umUpdBtn.click(function() {
+		 var ids = [];
+		 $('input[name="sUid"]:checked').each(function(){
+		 	ids.push($(this).val());
+		 });
+		 if (ids.length != 1) {
+		 	alert("请选择一条记录");
+		 } else{
+		 	 window.location.href = "admin?action=findAndPush&id=" + ids[0];
+		 };	 
+	});
+
 });

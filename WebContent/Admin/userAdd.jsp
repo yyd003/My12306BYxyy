@@ -20,7 +20,7 @@
 			<div class="col-sm-6">
 				<input type="hidden" name="uId" id="uId" value="${userData.id}">
 				<input type="text" class="form-control" name="username"
-					id="username" value="${userData.username}" placeholder="请输入名字">
+					id="username" value="${data.userData.username}" placeholder="请输入名字">
 					<span id="uCheck"></span>
 			</div>
 		</div>
@@ -28,7 +28,7 @@
 			<label for="realname" class="col-sm-2 control-label">真实名</label>
 			<div class="col-sm-6">
 				<input type="text" class="form-control" name="realname"
-					id="realname" value="${userData.realname}" placeholder="请输入真实名">
+					id="realname" value="${data.userData.realname}" placeholder="请输入真实名">
 			</div>
 		</div>
 		<div class="form-group">
@@ -45,7 +45,7 @@
 			<div class="col-sm-6">
 				<select class="form-control" name="sex" id="sex">
 					<option value="1">男</option>
-					<option value="０">女</option>
+					<option value="2">女</option>
 				</select>
 			</div>
 		</div>
@@ -64,8 +64,7 @@
 			<label for="lastname" class="col-sm-2 control-label">市</label>
 			<div class="col-sm-2">
 				<select class="form-control" id="city" name="city">
-					<option value="1">管理员</option>
-					<option value="2">普通用户</option>
+					<option value="1">北京市</option>
 				</select>
 			</div>
 		</div>
@@ -75,7 +74,7 @@
 			<div class="col-sm-6">
 				<select class="form-control" id="certType" name="certType">
 					<c:forEach items="${certTypeData.data}" var="s" varStatus="s1">
-						<option value="<c:out value="${s.id}" />"><c:out
+						<option value="<c:out value="${s.ID}" />"><c:out
 								value="${s.content}" />
 						</option>
 					</c:forEach>

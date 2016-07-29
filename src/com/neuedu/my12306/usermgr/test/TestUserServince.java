@@ -99,7 +99,7 @@ public class TestUserServince {
 //		System.out.println(s);
 //		
 //	}
-	@Test
+	//@Test
 	public void testDeleteUsers() throws Exception{
 		int a[] = {12,13,14};
 		Assert.assertTrue(us.deleteUsers(a));
@@ -138,5 +138,13 @@ public class TestUserServince {
 			for (User u : us.getUserList(10, 1, new User())) {
 				System.out.println(u.getRealname());
 			}
+		}
+		
+		@Test
+		public void testUpdateUser() throws Exception{
+			User one = new User();
+			one.setId(1);
+			one.setUsername("xuyangyang");
+			Assert.assertTrue(us.updateUser(one) == 1);
 		}
 }

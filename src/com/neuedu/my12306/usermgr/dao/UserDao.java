@@ -16,6 +16,6 @@ public interface UserDao {
 			throws Exception;  //获取指定页用户信息列表，通过分页SQL语句实现
     List<User> getUserListRS(int pageSize, int pageNum, User one)
 			throws Exception;   //获取指定页用户信息列表，通过分析结果集ResultSet对象实现
-    boolean updateUser(User one) throws Exception;  //更新用户信息
+    int updateUser(User one) throws Exception;  //更新用户信息
 	//List<IpAddress> getIpList() throws Exception;
 }

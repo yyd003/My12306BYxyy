@@ -42,11 +42,10 @@ $(function(){
             
 			success : function(data) {
 				 $("#city").html("");
-				 var userList = data.data;
+				 var cityList = data.data;
 				 var s = '';
-				 for(var i = 0; i < userList.length; i++){
-				 	s += '<option value' + userList[i].id + '>' + userList[i].city +'</option>' ;
-
+				 for(var i = 0; i < cityList.length; i++){
+				 	s += '<option value = '  + cityList[i].id + '>' + cityList[i].city +'</option>' ;
 				 }
 
 				 $("#city").append(s);
@@ -61,9 +60,7 @@ $(function(){
      var uSaveBtn = $("#uSaveBtn");
      var uId = $("#uId");
      uSaveBtn.click(function(){
-
      	if(uId.val() == 0){
-     		
      		doAdd();
         }
         else{
@@ -87,15 +84,12 @@ $(function(){
 				user_type : $("#userType").val(),
 				content : $("#content").val()
 			},
-			dataType : 'json',         
-            
+			dataType : 'json',
 			success : function(data) {
-				
 				  if(data.flag == "yes"){
-				  	alert("success");
+				  	
 				  	doRefresh();
 				  }
-
 			},
 			error : function() {
 				alert("error");
@@ -103,8 +97,38 @@ $(function(){
 		});
      }
 
+     function doUpdate(){
+     	$.ajax({
+			type : 'post',
+			url : 'admin?action=update',
+			data : {
+				id : uId.val(),
+				username : usernameObj.val(),
+				realname : $("#realname").val(),
+				rule : $("#rule").val(),
+				sex : $("#sex").val(),
+				city : $("#city").val(),
+				cert_type : $("#certType").val(),
+				cert : $("#cert").val(),
+				birthday : $("#birthday").val(),
+				user_type : $("#userType").val(),
+				content : $("#content").val()
+			},
+			dataType : 'json',
+			success : function(data) {
+				  if(data.flag == "yes"){
+				  	alert("修改成功")
+				  	doRefresh();
+				  }
+			},
+			error : function() {
+				alert("修改异常");
+			}
+		});
+     }
+
 	  function doRefresh(){
 	  	alert("刷新");
-	   window.location.href = "admin?action=show";
+	    window.location.href = "admin?action=show";
 	  }
 });

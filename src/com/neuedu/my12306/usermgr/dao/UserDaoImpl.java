@@ -43,6 +43,7 @@ public class UserDaoImpl implements UserDao{
 			pstmt.setString(12, u.getStatus());
 			pstmt.setString(13, u.getLogin_ip());
 			pstmt.setString(14, u.getImage_path());
+//System.out.println(pstmt);
 			i = pstmt.executeUpdate();
 			if(i != 0) 
 				return true;
@@ -396,7 +397,7 @@ public class UserDaoImpl implements UserDao{
 			// TODO Auto-generated catch block
 				System.out.println("findUser error!");
 		} finally {
-			System.out.println(pstmt);
+//System.out.println(pstmt);
 			DBUtils.closeStatement(rs, pstmt);
 		}
 		return user;
@@ -789,10 +790,126 @@ public class UserDaoImpl implements UserDao{
 	}
 
 	@Override
-	public boolean updateUser(User one) throws Exception {
+	public int updateUser(User one) throws Exception {
 		// TODO Auto-generated method stub
-		return false;
-	}
-  }
+		// SQL语句
+				StringBuffer update_sql = new StringBuffer("UPDATE tab_user set");
+				// 查询条件标记
+				boolean tag = false;
+				int row = 0;
+				// 查询条件id字段
+				Integer id = one.getId();
+				if (id == null || id == 0) {
+					return 0;
+				}
+				// 查询条件username字段
+				String username = one.getUsername();
+				if (username != null && !username.isEmpty()) {
+					update_sql.append(" username= '" + username + "'");
+					tag = true;
+				}
+				// 查询条件password字段
+				String password = one.getPassword();
+				if (password != null && !password.isEmpty()) {
+					update_sql.append(", password='" + password + "'");
+					tag = true;
+				}
+				// 查询条件rule字段
+				String rule = one.getRule();
+				if (rule != null && !rule.isEmpty()) {
+					update_sql.append(", rule='" + rule + "'");
+					tag = true;
+				}
+				// 查询条件realname字段，模糊查询
+				String realname = one.getRealname();
+				if (realname != null && !realname.isEmpty()) {
+					update_sql.append(", realname='" + realname+"'");
+					tag = true;
+				}
+				// 查询条件sex字段
+				String sex = one.getSex();
+				if (sex != null && !sex.isEmpty()) {
+					update_sql.append(", sex='" + sex+ "'");
+					tag = true;
+				}
+				// 查询条件city字段
+				if (one.getCity() != null) {
+					Integer city = one.getCity().getId();
+					if (city != null && city != 0) {
+						update_sql.append(", city=" + city);
+						tag = true;
+					}
+				}
+				// 查询条件cert_type字段
+				if (one.getCert_type() != null) {
+					Integer certtype = one.getCert_type().getID();
+					if (certtype != null && certtype != 0) {
+						update_sql.append(", cert_type=" + certtype);
+						tag = true;
+					}
+				}
+				// 查询条件cert字段
+				String cert = one.getCert();
+				if (cert != null && !cert.isEmpty()) {
+					update_sql.append(", cert='" + cert+ "'");
+					tag = true;
+				}
+				// 查询条件user_type字段
+				if (one.getUser_type() != null) {
+					Integer usertype = one.getUser_type().getId();
+					if (usertype != null && usertype != 0) {
+						update_sql.append(", user_type=" + usertype);
+						tag = true;
+					}
+				}
+				// 查询条件content字段
+				String content = one.getContent();
+				if (content != null && !content.isEmpty()) {
+					update_sql.append(", content='" + content+"'");
+					tag = true;
+				}
+				// 查询条件status字段
+				String status = one.getStatus();
+				if (status != null && !status.isEmpty()) {
+					update_sql.append(", status='" + status+ "'");
+					tag = true;
+				}
+				// 查询条件login_ip字段
+				String ip = one.getLogin_ip();
+				if (ip != null && !ip.isEmpty()) {
+					update_sql.append(", login_ip='" + ip);
+					tag = true;
+				}
+				// 查询条件image_path字段
+				String image = one.getImage_path();
+				if (image != null && !image.isEmpty()) {
+					update_sql.append(", image_path='" + image+ "'");
+					tag = true;
+				}
+
+				update_sql.append(" where id=" + id);
+
+				// 若没有查询条件则返回对象为null
+				if (!tag) {
+					return 0;
+				}
+
+				PreparedStatement pstmt = null;
+				try {
+					// 设置语句对象，SQL语句条件
+					pstmt = conn.prepareStatement(update_sql.toString());
+					row = pstmt.executeUpdate();
+
+				}
+				catch(Exception e){
+					e.printStackTrace();
+				}finally {
+					 System.out.println("udi:updateuser:" + pstmt);
+					DBUtils.closeStatement(null, pstmt);
+				}
+				return row;
+			}		 
+}
+ 
 
 
