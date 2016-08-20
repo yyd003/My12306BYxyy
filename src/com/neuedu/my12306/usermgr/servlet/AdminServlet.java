@@ -72,6 +72,7 @@ public class AdminServlet extends HttpServlet {
 //			System.out.println("add");
 			try {
 				doAdd(request, response);
+				request.getRequestDispatcher("Admin/newIndex.jsp").forward(request, response);
 			} catch (NumberFormatException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -267,7 +268,7 @@ public class AdminServlet extends HttpServlet {
 			JSONObject data = new JSONObject();
 			data.put("userData", findUser);
 			System.out.println(data);
-			request.getSession().setAttribute("data", data);
+			request.setAttribute("data", data);
 			request.getRequestDispatcher("/Admin/userAdd.jsp")
 			.forward(request, response);
 		}

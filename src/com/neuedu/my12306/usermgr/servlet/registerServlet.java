@@ -68,7 +68,7 @@ public class registerServlet extends HttpServlet {
 		else if("show".equals(action)){
 			try{
 				dataInit(request,response);
-				request.getRequestDispatcher("/Login.html").forward(request, response);
+				
 			}catch(Exception e1){
 				e1.printStackTrace();
 			}
@@ -80,7 +80,15 @@ public class registerServlet extends HttpServlet {
 			}catch(Exception e){
 				e.printStackTrace();
 			}
-		}	
+		}
+		
+		else if("findProvince".equals(action)){
+			try{
+				provinceDateInit(request,response);
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
 	}
 	
 	protected void doUsernameCheck(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -215,7 +223,7 @@ public class registerServlet extends HttpServlet {
 			Exception {
 		certTypeDateInit(request,response);
 		userTypeDateInit(request,response);
-		provinceDateInit(request,response);
+		request.getRequestDispatcher("/Login.html").forward(request, response);
 	}
 	
 	private void certTypeDateInit (HttpServletRequest request,
@@ -257,7 +265,11 @@ public class registerServlet extends HttpServlet {
 		}else{
 			jsonData.put("data", null);
 		}
-		request.getSession().setAttribute("provinceData", jsonData);
-//		System.out.println(jsonData);
-	}	
+		
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		// String cityData = jsonData.toString();
+		out.print(jsonData);
+		out.close();        
+	}		 
 }
