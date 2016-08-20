@@ -1,0 +1,64 @@
+package com.neuedu.my12306.usermgr.test;
+
+import java.util.List;
+
+import org.junit.Assert;
+import org.junit.Test;
+
+import com.neuedu.my12306.usermgr.domain.Order;
+import com.neuedu.my12306.usermgr.service.OrderService;
+
+public class TestOrderService {
+
+	OrderService os = OrderService.getInstance();
+
+	 @Test
+	public void testgetOrderList() throws Exception {
+		Order o = new Order();
+		List<Order> list = os.getOrderList(10, 1, o);
+		Assert.assertNotNull(list);
+		System.out.println(list);
+		System.out.println(list.size());
+	}
+
+	// @Test
+	public void testfindOrder() throws Exception {
+		Order o = new Order();
+		o.setName("小明");
+		Assert.assertNotNull(os.findOrder(o));
+		// System.out.println(list);
+	}
+
+//	 @Test
+	public void testsave() throws Exception {
+		Order o = new Order();
+		o.setName("小二");
+//		Calendar c = Calendar.getInstance();
+		o.setOrder_date("2016-7-7");
+		o.setFromplace("深圳");
+		o.setToplace("北京");
+		o.setBegin("14:22");
+		Assert.assertTrue(os.save(o));
+	}
+
+	// @Test
+	public void testdeleteOrder() throws Exception {
+		int[] i = new int[1];
+		i[0] = 8;
+		Assert.assertTrue(os.deleteOrder(i));
+	}
+
+//	@Test
+	public void testupdateOrder() throws Exception {
+		Order o = new Order();
+		// o.setName("小二");
+		// Calendar c = Calendar.getInstance();
+		o.setId(7);
+		o.setName("小二");
+		o.setOrder_date("2016-7-10");
+		// o.setFromplace("深圳");
+		// o.setToplace("北京");
+		// o.setBegin("14:22");
+		Assert.assertTrue(os.updateOrder(o));
+	}
+}

@@ -1,0 +1,28 @@
+package com.neuedu.my12306.usermgr.test;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import junit.framework.Assert;
+
+import org.junit.Test;
+
+import com.neuedu.my12306.usermgr.domain.OrderDetails;
+import com.neuedu.my12306.usermgr.service.OrderDetailsService;
+
+public class OrderDetailsServicetest {
+	OrderDetailsService ods = OrderDetailsService.getInstance();
+    @Test
+	void testGetOrderDetails() throws SQLException{
+		Assert.assertTrue(ods.getOrderDetailsByOrderId(1).size() == 3);
+	}
+    
+	public static void main(String[] args) throws SQLException {
+		// TODO Auto-generated method stub
+		OrderDetailsService ods = OrderDetailsService.getInstance();
+		List<OrderDetails> od = ods.getOrderDetailsByOrderId(1);
+		for (OrderDetails orderDetails : od) {
+			System.out.println(orderDetails);		
+		}	
+	}
+}

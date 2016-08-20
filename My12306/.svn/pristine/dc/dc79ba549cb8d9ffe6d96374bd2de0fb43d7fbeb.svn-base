@@ -1,0 +1,67 @@
+$(function() {
+//	alert("order.js");
+//	var umDeleteBtn = $("#umDeleteBtn");
+//	var umUpdateBtn = $("#umUpdateBtn");
+	function doReFresh() {
+		window.location.href = "user?action=show";
+	}
+	
+	var uBuyBtn = $("#uBuyBtn");
+	uBuyBtn.click(function(){
+//		alert("111");
+		window.location.href = "../User/Train.jsp";
+	})
+
+	$("#umDeleteBtn").click(function() {
+//		alert("asd");
+		var ids = [];
+		$('input[name="sUid"]:checked').each(function() {
+			ids.push($(this).val());
+		});
+		if (ids.length == 0) {
+			alert("请至少选择一个订单");
+		} else {
+			if (confirm("此操作不可撤销！ 是否继续？")) {
+				doDelete(ids);
+			} else {
+				$('input[name="sUid"]').attr("checked", false);
+			}
+		}
+	});
+	function doDelete(ids) {
+		$.ajax({
+			type : 'post',
+			url : 'user?action=cancel',
+			data : {
+				ids_d : ids.toString()
+			},
+			dataType : 'json',
+			success : function(data) {
+				if (data.flag == "yes") {
+					alert("订单取消成功");
+					doReFresh();
+				} else {
+					alert("订单取消异常");
+				}
+			},
+			error : function() {
+				alert("异常");
+			}
+		});
+	}
+	$("#subOrder").click(function(){
+		alert("提交订单");
+		var ids = [];
+		$('input[name="sOid"]:checked').each(function() {
+			ids.push($(this).val());
+//			ids.push(",");
+		});
+		if(ids.length == 0)
+		{
+			alert("请至少选择一名乘客！");
+		}else{
+			alert("开始提交！")
+			window.location.href="../User/user?action=submitOrder&passengers[]="+ids;
+		}
+	});
+});

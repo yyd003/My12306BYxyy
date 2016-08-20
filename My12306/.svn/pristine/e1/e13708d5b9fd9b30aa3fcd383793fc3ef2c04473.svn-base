@@ -1,0 +1,10 @@
+package com.neuedu.my12306.usermgr.domain;
+
+public class OrderDetail {
+	private int id;
+	private Order orderid;
+//	private Train trainid;
+	private String traininfo;
+	private String userinfo;
+	private double price;
+}

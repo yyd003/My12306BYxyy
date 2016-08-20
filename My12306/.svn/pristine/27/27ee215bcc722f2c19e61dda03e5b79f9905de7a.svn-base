@@ -1,0 +1,208 @@
+package com.neuedu.my12306.usermgr.servlet;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.List;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import net.sf.json.JSONObject;
+
+import com.neuedu.my12306.usermgr.domain.Order;
+import com.neuedu.my12306.usermgr.domain.Train;
+import com.neuedu.my12306.usermgr.domain.User;
+import com.neuedu.my12306.usermgr.service.OrderService;
+import com.neuedu.my12306.usermgr.service.TrainService;
+import com.neuedu.my12306.usermgr.service.UserService;
+
+/**
+ * Servlet implementation class UserServlet
+ */
+// @WebServlet("/UserServlet")
+public class UserServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	/**
+	 * @see HttpServlet#HttpServlet()
+	 */
+	public UserServlet() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doPost(request, response);
+	}
+
+	/**
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		request.setCharacterEncoding("UTF-8");
+		String action = request.getParameter("action");
+		System.out.println(action);
+		if ("show".equals(action)) {
+			try {
+				doShow(request, response);
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+		} else if ("addOrder".equals(action)) {
+			try {
+				doAddOrder(request, response);
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+		}else if ("showUserInfo".equals(action)) {
+			try {
+				doShowUserInfo(request, response);
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+		}else if (action == null ||"search".equals(action)) {
+			try {		
+				doSearch(request, response);
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
+	    }
+	}
+
+	private void doShowUserInfo(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		// TODO Auto-generated method stub
+		HttpSession session = request.getSession();
+		User u = (User) session.getAttribute("user");
+		UserService us = UserService.getInstance();
+		JSONObject data = new JSONObject();
+		User user = us.findUser(u);
+		if (user != null) {
+			data.put("UserMessage", user);
+		}
+		request.setAttribute("userdata", data);
+		request.getRequestDispatcher("/User/message.jsp").forward(request,
+				response);
+	}
+//
+//	protected void doCancel(HttpServletRequest request,
+//			HttpServletResponse response) throws IOException {
+//		OrderService os = OrderService.getInstance();
+//		JSONObject data = new JSONObject();
+//		String[] ids = request.getParameter("ids_d").split(",");
+//		int[] orderIdList = new int[ids.length];
+//		for (int i = 0; i < orderIdList.length; i++) {
+//			orderIdList[i] = Integer.parseInt(ids[i]);
+//		}
+//		try {
+//			if (os.deleteOrder(orderIdList)) {
+//				data.put("flag", "yes");
+//			}
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		response.setContentType("text/html;charset=utf-8");
+//		PrintWriter out = response.getWriter();
+//		out.print(data.toString());
+//		out.close();
+//	}
+
+	private void doAddOrder(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		// TODO Auto-generated method stub
+		OrderService os = OrderService.getInstance();
+		JSONObject data = new JSONObject();
+		Order u = new Order();
+		populate(request, u);
+
+		if (os.save(u)) {
+			data.put("flag", "yes");
+		}
+		response.setContentType("text/html;charset=utf-8");
+		PrintWriter out = response.getWriter();
+		out.print(data.toString());
+		out.close();
+	}
+
+	protected void doShow(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		OrderService os = OrderService.getInstance();
+		// fill user first
+		Order o = new Order();
+		User u = (User)request.getSession().getAttribute("user");
+		System.out.println(u);
+		System.out.println(u.getId());
+		List<Order> orderList = os.getOrderList(u);
+		for(int i = 0; i < orderList.size(); i++){
+			
+		}
+		System.out.println(orderList);
+		JSONObject jsonData = new JSONObject();
+		if (orderList != null) {
+			jsonData.put("orderList", orderList);
+			// jsonData.put("pages", pageList);
+		} else {
+			jsonData.put("orderList", null);
+			// jsonData.put("pages", null);
+		}
+		request.setAttribute("data", jsonData);
+		request.getRequestDispatcher("/User/Complete.jsp").forward(request,
+				response);
+	}
+
+	protected void populate(HttpServletRequest request, Order o)
+			throws NumberFormatException, Exception {
+		// String loginIp = request.getRemoteAddr();
+		// String username = request.getParameter("username");
+		String order_date = request.getParameter("order_date");
+		String name = request.getParameter("name");
+		String fromplace = request.getParameter("fromplace");
+		String toplace = request.getParameter("toplace");
+		String begin = request.getParameter("begin");
+
+		o.setOrder_date(order_date);
+		o.setName(name);
+ 
+	}
+
+	protected void doSearch(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+
+		TrainService ts = TrainService.getInstance();
+		String fromplace = request.getParameter("myfromplace");
+		System.out.println(fromplace);
+		String toplace = request.getParameter("mytoplace");
+		System.out.println(toplace);
+		String date = request.getParameter("mydate");
+		System.out.println(date);
+
+		List<Train> trainList = ts.getTrainList(fromplace, toplace, date);
+		// List<Train> trainList = ts.getTrainList("娌堥槼", "鍝堝皵婊�, "2016-8-2");
+		System.out.println(trainList); // 
+		JSONObject jsonData = new JSONObject();
+		if (trainList != null) {
+			jsonData.put("trains", trainList);
+		} else {
+			jsonData.put("trains", null);
+		}
+		request.setAttribute("data", jsonData);
+		request.getRequestDispatcher("/User/Train.jsp").forward(request,
+				response);
+	}
+}

@@ -1,0 +1,14 @@
+$(function() {
+
+	var uBuyBtn = $("#uBuyBtn");
+	var myfromplace = $("#myfromplace").val();
+	var tofromplace = $("#mytoplace").val();
+	var date = $("#mydate").val();
+
+	// searchBtn.click(function(){
+	// 	alert(myfromplace);
+	// 	// alert("haha");
+	// 	//window.location.href="../admin?action=show";
+	// 	window.location.href="user?action=search&myfromplace="+myfromplace+"&mytoplace="+mytoplace+"&mydate="+mydate;	
+ //    })
+});

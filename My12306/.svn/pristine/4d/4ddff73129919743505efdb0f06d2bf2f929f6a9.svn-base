@@ -1,0 +1,67 @@
+$(function() {
+	function doReFresh() {
+		window.location.href = "user?action=show";
+	}
+	
+	//点击“查看并购票” 按钮
+	var uBuyBtn = $("#uBuyBtn");
+	uBuyBtn.click(function(){
+		window.location.href = "../User/Train.jsp";
+	})
+
+	//点击取消订单按钮
+	$("#umDeleteBtn").click(function() {
+		var ids = [];
+		$('input[name="sUid"]:checked').each(function() {
+			ids.push($(this).val());
+		});
+		if (ids.length == 0) {
+			alert("请至少选择一个订单");
+		} else {
+			if (confirm("此操作不可撤销！ 是否继续？")) {
+				doDelete(ids);
+			} else {
+				$('input[name="sUid"]').attr("checked", false);
+			}
+		}
+	});
+	function doDelete(ids) {
+		$.ajax({
+			type : 'post',
+			url : 'user?action=cancel',
+			data : {
+				ids_d : ids.toString()
+			},
+			dataType : 'json',
+			success : function(data) {
+				if (data.flag == "yes") {
+					alert("订单取消成功");
+					doReFresh();
+				} else {
+					alert("订单取消异常");
+				}
+			},
+			error : function() {
+				alert("异常");
+			}
+		});
+	}
+	
+	//点击提交订单按钮
+	$("#subOrder").click(function(){
+		var ids = [];
+		$('input[name="sOid"]:checked').each(function() {
+			ids.push($(this).val());
+		});
+		if(ids.length == 0)
+		{
+			alert("请至少选择一名乘客！");
+		}else{
+			if (confirm("是否提交订单？")) {
+				window.location.href="../User/user?action=submitOrder&passengers[]="+ids;
+			} else {
+				$('input[name="sOid"]').attr("checked", false);
+			}
+		}
+	});
+});
