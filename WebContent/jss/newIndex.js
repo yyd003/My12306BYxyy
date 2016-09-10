@@ -19,7 +19,7 @@ $(function(){
 		 	alert("请选择至少一条记录");
 		 } else{
 		 	if (confirm("确定删除" + ids +"号" + ids.length + "条记录")) {
-		 		
+		 		alert("aaaa");
 		 		doDel(ids);
 		 	} else{
 		 		$('input[name = "sUid"]').attr("checked",false);
